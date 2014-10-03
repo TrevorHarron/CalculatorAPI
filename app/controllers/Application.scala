@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 object Application extends Controller {
 
   def index = Action {
-    Redirect(routes.Application.ping)
+     Ok(views.html.index("Your new application is ready."))
   }
 
   def ping = Action {
