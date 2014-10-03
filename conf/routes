@@ -1,0 +1,20 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+
+#methods
+GET     /ping                       controllers.Application.ping
+
+POST    /math/add                   controllers.Math.add
+POST    /math/sub                   controllers.Math.sub
+POST    /math/mul                   controllers.Math.mul
+POST    /math/div                   controllers.Math.div
+POST    /math/mod                   controllers.Math.mod
+POST    /math/pwr                   controllers.Math.pwr
