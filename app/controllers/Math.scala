@@ -10,7 +10,9 @@ object Math extends Controller {
     NotImplemented(Json.obj("message"->"sorry this is not ready", "Status"->501))
   private def mapReduce = TODO
   
-  def home = TODO
+  def home = Action{
+      defaultMSG
+  }
 
   def add = Action{
       defaultMSG
