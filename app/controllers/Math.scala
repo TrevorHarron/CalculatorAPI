@@ -6,18 +6,34 @@ import play.api.libs.json.Json
 
 object Math extends Controller {
     
+  private val defaultMSG = 
+    NotImplemented(Json.obj("message"->"sorry this is not ready", "Status"->501))
   private def mapReduce = TODO
+  
+  def home = TODO
 
-  def add = TODO
+  def add = Action{
+      defaultMSG
+  }
   
-  def sub = TODO
+  def sub = Action{
+      defaultMSG
+  }
   
-  def mul = TODO
+  def mul = Action{
+      defaultMSG
+  }
   
-  def div = TODO
+  def div = Action{
+      defaultMSG
+  }
   
-  def mod = TODO
+  def mod = Action{
+      defaultMSG
+  }
   
-  def pwr = TODO
+  def pwr = Action{
+      defaultMSG
+  }
 
 }
