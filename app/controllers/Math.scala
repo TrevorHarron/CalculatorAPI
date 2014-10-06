@@ -2,20 +2,18 @@ package controllers
 
 import play.api._
 import play.api.mvc._
-import play.api.libs.json.Json
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 object Math extends Controller {
     
-  private val defaultMSG = 
-    NotImplemented(Json.obj("message"->"sorry this is not ready", "Status"->501))
-  
+  private val defaultMSG = NotImplemented(Json.obj("message"->"sorry this is not ready", "Status"->501))
   
   private def baseFunction(base:Double, values: Array[Double],
     func: (Double,Double) => Double, cond: Double => Boolean):Double = {
-        def iter(acc:Double,values:Array[Double], 
-            f: (Double,Double) => Double, c: Double => Boolean):Double = {
+        def iter(acc:Double,values:Array[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
             if(values.isEmpty){ 
-                base
+                acc
             } else if (c(values.head)) {
                 throw new IllegalArgumentException(values.head + " was invalid")
             } else { 
@@ -25,9 +23,26 @@ object Math extends Controller {
         iter(base, values,func,cond)
     }
   
-  def home = TODO
 
-  def add = Action(parse.json){request => defaultMSG }
+
+  def add = Action(parse.json){ request => 
+       request.body.validate[Array[Double]]{ 
+           case (values) => {
+                   var result = 0.0
+                   try {
+                       var result = baseFunction(0, values, (x:Double,y:Double) => x+y, 
+                        (x: Double) => false)
+                       Ok(Json.obj("result"-> result))
+                    } catch {
+                       case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->"Illegal arguments", "Status"->400))}
+                       case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
+                    }
+                }
+            }.recoverTotal {
+                ex => BadRequest(Json.obj("message"->"Bad Request", "Status"->400))
+            }
+        } 
+      
   
   def sub = Action(parse.json){request => defaultMSG }
   
@@ -38,5 +53,7 @@ object Math extends Controller {
   def mod = Action(parse.json){request => defaultMSG }
   
   def pwr = Action(parse.json){request => defaultMSG }
+  
+  def home = TODO
 
 }
