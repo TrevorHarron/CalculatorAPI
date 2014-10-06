@@ -23,15 +23,13 @@ object Math extends Controller {
         iter(base, values,func,cond)
     }
   
-
-
-  def add = Action(parse.json){ request => 
+  def handleRequest(start:Double,f:(Double,Double) => Double,c:Double=>Boolean)={
+      Action(parse.json){ request => 
        request.body.validate[(Array[Double])].map{
            case (values) => {
                    var result = 0.0
                    try {
-                       var result = baseFunction(0, values, (x:Double,y:Double) => x+y, 
-                        (x: Double) => false)
+                       var result = baseFunction(start, values, f, c)
                        Ok(Json.obj("result"-> result))
                     } catch {
                        case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->"Illegal arguments", "Status"->400))}
@@ -41,7 +39,10 @@ object Math extends Controller {
             }.recoverTotal {
                 ex => BadRequest(Json.obj("message"->"Bad Request", "Status"->400))
             }
-        } 
+        }
+    }
+
+  def add = handleRequest(0.0,(x:Double,y:Double) => x+y,(x:Double)=>false)
       
   
   def sub = Action(parse.json){request => defaultMSG }
