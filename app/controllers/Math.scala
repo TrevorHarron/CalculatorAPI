@@ -26,7 +26,7 @@ object Math extends Controller {
 
 
   def add = Action(parse.json){ request => 
-       request.body.validate[Array[Double]]{ 
+       request.body.validate[(Array[Double])].map{
            case (values) => {
                    var result = 0.0
                    try {
