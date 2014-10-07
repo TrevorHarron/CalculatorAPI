@@ -10,7 +10,7 @@ object Math extends Controller {
     
   implicit val rds = ((__ \ 'values).read[List[Double]])
   
-  def handleJson(json:JsValue,start:Double, values:List[Double],f:(Double,Double)=>Double,c: Double => Boolean) ={
+  def handleJson(json:JsValue,start:Double,f:(Double,Double)=>Double,c: Double => Boolean) ={
         json.validate[(List[Double])].map{
             case (values) => {
                 var result = 0.0
@@ -28,23 +28,53 @@ object Math extends Controller {
   }
   
   
-    def add = Action{ request => 
-             request.body.asJson.map{ json =>
-                handleJson(json,0.0,values,(d:Double,y:Double)=>x+y,(x:Double)=>false)
-            }.getOrElse {
-              BadRequest("Expecting Json data")
-            }
+    def add = Action { request => 
+        request.body.asJson.map{ json =>
+            handleJson(json,0.0,(x:Double,y:Double)=>x+y,(x:Double)=>false)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
     }
   
-    def sub = Action(parse.json){request => defaultMSG }
+    def sub = Action { request => 
+        request.body.asJson.map{ json =>
+            handleJson(json,0.0,(x:Double,y:Double)=>x-y,(x:Double)=>false)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
+    }
   
-    def mul = Action(parse.json){request => defaultMSG }
+    def mul = Action { request => 
+        request.body.asJson.map{ json =>
+            handleJson(json,1.0,(x:Double,y:Double)=>x*y,(x:Double)=>false)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
+    }
   
-    def div = Action(parse.json){request => defaultMSG }
+    def div = Action { request => 
+        request.body.asJson.map{ json =>//find the start value
+            handleJson(json,1.0,(x:Double,y:Double)=>x/y,(x:Double)=>x==0)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
+    }
   
-    def mod = Action(parse.json){request => defaultMSG }
+    def mod = Action { request => 
+        request.body.asJson.map{ json =>
+            handleJson(json,1.0,(x:Double,y:Double)=>x%y,(x:Double)=>x==0)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
+    }
   
-    def pwr = Action(parse.json){request => defaultMSG }
+    def pwr = Action { request => 
+        request.body.asJson.map{ json =>
+            handleJson(json,1.0,(x:Double,y:Double)=>x^y,(x:Double)=>false)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
+    }
   
     def home = Action{request => defaultMSG }
   
