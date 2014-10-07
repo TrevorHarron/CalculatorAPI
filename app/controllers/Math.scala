@@ -10,7 +10,7 @@ object Math extends Controller {
     
   implicit val rds = ((__ \ 'values).read[List[Double]])
   
-  def handleJson(json:JsObject,start:Double, values:List[Double],f:(Double,Double)=>Double,c: Double => Boolean) ={
+  def handleJson(json:JsValue,start:Double, values:List[Double],f:(Double,Double)=>Double,c: Double => Boolean) ={
         json.validate[(List[Double])].map{
             case (values) => {
                 var result = 0.0
