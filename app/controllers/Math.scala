@@ -15,10 +15,14 @@ object Math extends Controller {
             case (values) => {
                 var result = 0.0
                 try {
-                    var result = baseFunction(start, values, f, c)
+                    if(start ==Double.NaN){
+                        result = baseFunction(values.head, values.tail, f, c)
+                    } else {
+                        result = baseFunction(start, values, f, c)
+                    }
                     Ok(Json.obj("result"-> result))
                 } catch {
-                   case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->"Illegal arguments", "Status"->400))}
+                   case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->ex.toString, "Status"->400))}
                    case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
                 }
             }
@@ -38,7 +42,7 @@ object Math extends Controller {
   
     def sub = Action { request => 
         request.body.asJson.map{ json =>
-            handleJson(json,0.0,(x:Double,y:Double)=>x-y,(x:Double)=>false)
+            handleJson(json,Double.NaN,(x:Double,y:Double)=>x-y,(x:Double)=>false)
         }.getOrElse {
             BadRequest("Expecting Json data")
         }
@@ -53,32 +57,30 @@ object Math extends Controller {
     }
   
     def div = Action { request => 
-        request.body.asJson.map{ json =>//find the start value
-            handleJson(json,1.0,(x:Double,y:Double)=>x/y,(x:Double)=>x==0)
+        request.body.asJson.map{ json =>//fix start
+            handleJson(json,Double.NaN,(x:Double,y:Double)=>x/y,(x:Double)=>x==0)
         }.getOrElse {
             BadRequest("Expecting Json data")
         }
     }
   
-    def mod = Action { request => 
+    def mod = Action { request => //fix start
         request.body.asJson.map{ json =>
-            handleJson(json,1.0,(x:Double,y:Double)=>x%y,(x:Double)=>x==0)
+            handleJson(json,Double.NaN,(x:Double,y:Double)=>x%y,(x:Double)=>x==0)
         }.getOrElse {
             BadRequest("Expecting Json data")
         }
     }
   
-    def pwr = Action { request => 
+    def pwr = Action { request => //fix start
         request.body.asJson.map{ json =>
-            handleJson(json,1.0,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false)
+            handleJson(json,Double.NaN,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false)
         }.getOrElse {
             BadRequest("Expecting Json data")
         }
     }
   
-    def home = Action{request => defaultMSG }
-  
-    private val defaultMSG = NotImplemented(Json.obj("message"->"sorry this is not ready", "Status"->501))
+    def home = TODO
   
   private def baseFunction(base:Double, values: List[Double],
     func: (Double,Double) => Double, cond: Double => Boolean):Double = {
