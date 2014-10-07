@@ -4,12 +4,17 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import play.api.Logger
 
 object Math extends Controller {
     
-  def add = Action(parse.json){ request => 
-       request.body.validate[(Array[Double])].map{
-           case (values) => {
+  implicit val rds = ((__ \ 'values).read[List[Double]])
+  
+  def add = Action{ request => 
+       request.body.asJson.map{ json =>
+       Logger.debug(json.getClass.toString)
+           json.validate[(List[Double])].map{
+                case (values) => {
                    var result = 0.0
                    try {
                        var result = baseFunction(0, values, (x:Double,y:Double)=>x+y, (x:Double)=>false)
@@ -18,9 +23,12 @@ object Math extends Controller {
                        case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->"Illegal arguments", "Status"->400))}
                        case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
                     }
+                    }
+                }.recoverTotal {
+                    ex => BadRequest(JsError.toFlatJson(ex))
                 }
-            }.recoverTotal {
-                ex => BadRequest(JsError.toFlatJson(ex))
+            }.getOrElse {
+              BadRequest("Expecting Json data")
             }
         }
   
@@ -38,9 +46,9 @@ object Math extends Controller {
   
   private val defaultMSG = NotImplemented(Json.obj("message"->"sorry this is not ready", "Status"->501))
   
-  private def baseFunction(base:Double, values: Array[Double],
+  private def baseFunction(base:Double, values: List[Double],
     func: (Double,Double) => Double, cond: Double => Boolean):Double = {
-        def iter(acc:Double,values:Array[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
+        def iter(acc:Double,values:List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
             if(values.isEmpty){ 
                 acc
             } else if (c(values.head)) {
