@@ -4,7 +4,7 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
-import play.api.Logger
+import scala.math.pow
 
 object Math extends Controller {
     
@@ -70,7 +70,7 @@ object Math extends Controller {
   
     def pwr = Action { request => 
         request.body.asJson.map{ json =>
-            handleJson(json,1.0,(x:Double,y:Double)=>x^y,(x:Double)=>false)
+            handleJson(json,1.0,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false)
         }.getOrElse {
             BadRequest("Expecting Json data")
         }
