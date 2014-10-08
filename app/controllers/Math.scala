@@ -15,7 +15,7 @@ object Math extends Controller {
             case (values) => {
                 var result = 0.0
                 try {
-                    if(start ==Double.NaN){
+                    if(start.equals(Double.NaN)){
                         result = baseFunction(values.head, values.tail, f, c)
                     } else {
                         result = baseFunction(start, values, f, c)
