@@ -9,9 +9,12 @@ GET     /                           controllers.Application.index
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 
-#methods
+#Math GET methods
 GET     /ping                       controllers.Application.ping
 
+GET     /math                       controllers.Math.home
+
+#Math Post Functions
 POST    /math/add                   controllers.Math.add
 POST    /math/sub                   controllers.Math.sub
 POST    /math/mul                   controllers.Math.mul

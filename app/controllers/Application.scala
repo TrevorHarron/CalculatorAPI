@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 object Application extends Controller {
 
   def index = Action {
-     Ok(views.html.index("Your new application is ready."))
+     Ok(views.html.index("Welcome to the calculator Home!"))
   }
 
   def ping = Action {
