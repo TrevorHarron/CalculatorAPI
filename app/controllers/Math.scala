@@ -31,6 +31,20 @@ object Math extends Controller {
         }
   }
   
+   private def baseFunction(base:Double, values: List[Double],
+    func: (Double,Double) => Double, cond: Double => Boolean):Double = {
+        def iter(acc:Double,values:List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
+            if(values.isEmpty){ 
+                acc
+            } else if (c(values.head)) {
+                throw new IllegalArgumentException(values.head + " was invalid")
+            } else { 
+                iter(f(acc,values.head), values.tail,f,c)
+            }
+        }
+        iter(base, values,func,cond)
+    }
+  
   
     def add = Action { request => 
         request.body.asJson.map{ json =>
@@ -79,21 +93,7 @@ object Math extends Controller {
             BadRequest("Expecting Json data")
         }
     }
-  
-    def home = TODO
-  
-  private def baseFunction(base:Double, values: List[Double],
-    func: (Double,Double) => Double, cond: Double => Boolean):Double = {
-        def iter(acc:Double,values:List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
-            if(values.isEmpty){ 
-                acc
-            } else if (c(values.head)) {
-                throw new IllegalArgumentException(values.head + " was invalid")
-            } else { 
-                iter(f(acc,values.head), values.tail,f,c)
-            }
-        }
-        iter(base, values,func,cond)
-    }
+    
+    def home = Action { Ok(views.html.math()) }
 
 }
