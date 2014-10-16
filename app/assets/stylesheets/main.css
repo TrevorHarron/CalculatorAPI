@@ -1,10 +1,11 @@
-p {
-  margin:50px;
-  color: #FF0000;
-}
-
 h1{
-  margin:50px;
+  padding:50px;
   color: #0000FF;
   
 }
+
+p {
+  margin:50px;
+}
+
+
