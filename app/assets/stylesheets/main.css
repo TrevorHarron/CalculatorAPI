@@ -11,5 +11,21 @@ body {
 p {
   font: arial, sans-serif;
 }
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float:left;
+}
+
+a {
+    display:block;
+    width:70px;
+    background-color: #dddddd;
+}
 
 
