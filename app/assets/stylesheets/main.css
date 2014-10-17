@@ -4,8 +4,12 @@ h1 {
   
 }
 
+body {
+    padding:10px;
+}
+
 p {
-  padding:10px;
+  font: arial, sans-serif;
 }
 
 
