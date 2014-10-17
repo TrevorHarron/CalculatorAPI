@@ -21,3 +21,11 @@ POST    /math/mul                   controllers.Math.mul
 POST    /math/div                   controllers.Math.div
 POST    /math/mod                   controllers.Math.mod
 POST    /math/pwr                   controllers.Math.pwr
+
+#Math GET functions
+GET    /math/add                   controllers.Math.home
+GET    /math/sub                   controllers.Math.home
+GET    /math/mul                   controllers.Math.home
+GET    /math/div                   controllers.Math.home
+GET    /math/mod                   controllers.Math.home
+GET    /math/pwr                   controllers.Math.home
