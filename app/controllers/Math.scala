@@ -97,5 +97,7 @@ object Math extends Controller {
     def rpn = TODO
     
     def home = Action { Ok(views.html.math()) }
+    
+    def doc(action:String) = TODO
 
 }

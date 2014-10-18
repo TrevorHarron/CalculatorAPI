@@ -24,9 +24,4 @@ POST    /math/pwr                   controllers.Math.pwr
 POST    /math/rpn                   controllers.Math.rpn
 
 #Math GET functions
-GET    /math/add                   controllers.Math.home
-GET    /math/sub                   controllers.Math.home
-GET    /math/mul                   controllers.Math.home
-GET    /math/div                   controllers.Math.home
-GET    /math/mod                   controllers.Math.home
-GET    /math/pwr                   controllers.Math.home
+GET    /math/doc/:action           controllers.Math.doc(action:String)
