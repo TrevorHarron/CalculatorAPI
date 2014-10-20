@@ -13,6 +13,10 @@ p {
   font: arial, sans-serif;
 }
 
+.curl {
+    font-style: italic;
+}
+
 /* Toolbar css below */
 ul {
     list-style-type: none;
