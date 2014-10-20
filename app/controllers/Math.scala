@@ -15,11 +15,8 @@ object Math extends Controller {
             case (values) => {
                 var result = 0.0
                 try {
-                    if(start.equals(Double.NaN)){
-                        result = baseFunction(values.head, values.tail, f, c)
-                    } else {
-                        result = baseFunction(start, values, f, c)
-                    }
+                    if(start.equals(Double.NaN)) result = baseFunction(values.head, values.tail, f, c)
+                    else result = baseFunction(start, values, f, c)
                     Ok(Json.obj("result"-> result))
                 } catch {
                    case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->ex.toString, "Status"->400))}
@@ -31,18 +28,13 @@ object Math extends Controller {
         }
   }
   
-   private def baseFunction(base:Double, values: List[Double],
-    func: (Double,Double) => Double, cond: Double => Boolean):Double = {
-        def iter(acc:Double,values:List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
-            if(values.isEmpty){ 
-                acc
-            } else if (c(values.head)) {
-                throw new IllegalArgumentException(values.head + " was invalid")
-            } else { 
-                iter(f(acc,values.head), values.tail,f,c)
-            }
+   private def baseFunction(base:Double, values: List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
+        def iter(acc:Double,values:List[Double],g: (Double,Double) => Double, d: Double => Boolean):Double = {
+            if(values.isEmpty) acc
+            else if (d(values.head)) throw new IllegalArgumentException(values.head + " was invalid")
+            else iter(g(acc,values.head), values.tail,g,c)
         }
-        iter(base, values,func,cond)
+        iter(base, values,f,c)
     }
   
   
