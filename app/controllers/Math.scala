@@ -9,7 +9,7 @@ import scala.math.pow
 object Math extends Controller {
     
   implicit val rds = ((__ \ 'values).read[List[Double]])
-  implicit val rds = ((__ \ 'calculation).read[List[String]])
+  //implicit val rd = ((__ \ 'calculation).read[List[String]])
   
   def handleJson(json:JsValue,start:Double,f:(Double,Double)=>Double,c: Double => Boolean) ={
         json.validate[(List[Double])].map{
