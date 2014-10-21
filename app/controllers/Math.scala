@@ -24,9 +24,9 @@ object Math extends Controller {
                    case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
                 }
             }
-            case (calculation) =>{
-                
-            }
+           /* case (calculation) =>{
+                TODO
+            }*/
         }.recoverTotal {
             ex => BadRequest(JsError.toFlatJson(ex))
         }
