@@ -9,6 +9,7 @@ import scala.math.pow
 object Math extends Controller {
     
   implicit val rds = ((__ \ 'values).read[List[Double]])
+  implicit val rds = ((__ \ 'calculation).read[List[String]])
   
   def handleJson(json:JsValue,start:Double,f:(Double,Double)=>Double,c: Double => Boolean) ={
         json.validate[(List[Double])].map{
@@ -22,6 +23,9 @@ object Math extends Controller {
                    case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->ex.toString, "Status"->400))}
                    case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
                 }
+            }
+            case (calculation) =>{
+                
             }
         }.recoverTotal {
             ex => BadRequest(JsError.toFlatJson(ex))
@@ -63,14 +67,14 @@ object Math extends Controller {
     }
   
     def div = Action { request => 
-        request.body.asJson.map{ json =>//fix start
+        request.body.asJson.map{ json =>
             handleJson(json,Double.NaN,(x:Double,y:Double)=>x/y,(x:Double)=>x==0)
         }.getOrElse {
             BadRequest("Expecting Json data")
         }
     }
   
-    def mod = Action { request => //fix start
+    def mod = Action { request =>
         request.body.asJson.map{ json =>
             handleJson(json,Double.NaN,(x:Double,y:Double)=>x%y,(x:Double)=>x==0)
         }.getOrElse {
@@ -78,7 +82,7 @@ object Math extends Controller {
         }
     }
   
-    def pwr = Action { request => //fix start
+    def pwr = Action { request =>
         request.body.asJson.map{ json =>
             handleJson(json,Double.NaN,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false)
         }.getOrElse {
@@ -86,7 +90,13 @@ object Math extends Controller {
         }
     }
     
-    def rpn = TODO
+    def rpn = Action{request => 
+        request.body.asJson.map{ json =>
+            handleJson(json,Double.NaN,(x:Double,y:Double)=>1,(x:Double)=>false)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
+    }
     
     def home = Action { Ok(views.html.math()) }
     
