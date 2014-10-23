@@ -23,15 +23,12 @@ object Math extends Controller {
                    case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
                 }
             }
-           /* case (calculation) =>{
-                TODO
-            }*/
         }.recoverTotal {
             ex => BadRequest(JsError.toFlatJson(ex))
         }
   }
   
-   private def baseFunction(base:Double, values: List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
+   def baseFunction(base:Double, values: List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
         def iter(acc:Double,values:List[Double],g: (Double,Double) => Double, d: Double => Boolean):Double = {
             if(values.isEmpty) acc
             else if (d(values.head)) throw new IllegalArgumentException(values.head + " was invalid")
