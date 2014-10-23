@@ -7,10 +7,11 @@ import play.api.libs.functional.syntax._
 
 object Calculator extends Controller {
     
+    private val operators = "[+-/*^%]".r
     
     implicit val rd = ((__ \ 'calculation).read[List[String]])
     
-      def handleJson(json:JsValue,start:Double,f:(Double,Double)=>Double,c: Double => Boolean) ={
+      def handleJson(json:JsValue) ={
         json.validate[(List[String])].map{
             case (calculation) => {
                 var result = 0.0
@@ -30,13 +31,12 @@ object Calculator extends Controller {
         0.0
     }
     
-    def rpn = TODO
-    
-    trait Operation{
-        def function: Double
-    }
-    class Add extends Operation{
-        def function: Double = 0.0
+    def rpn = Action { request => 
+        request.body.asJson.map{ json =>
+            handleJson(json)
+        }.getOrElse {
+            BadRequest("Expecting Json data")
+        }
     }
     
 }
