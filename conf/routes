@@ -21,7 +21,9 @@ POST    /math/mul                   controllers.Math.mul
 POST    /math/div                   controllers.Math.div
 POST    /math/mod                   controllers.Math.mod
 POST    /math/pwr                   controllers.Math.pwr
-POST    /math/rpn                   controllers.Math.rpn
+
+#Calculator POST Functions
+POST    /calc/rpn                   controllers.Calculator.rpn
 
 #Math GET functions
 GET    /math/doc/:action           controllers.Math.doc(action:String)
