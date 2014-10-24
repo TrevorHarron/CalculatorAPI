@@ -8,6 +8,7 @@ import play.api.libs.functional.syntax._
 object Calculator extends Controller {
     
     private val operators = "[+-/*^%]".r
+    private val numbers = "[0-9]".r
     
     implicit val rd = ((__ \ 'calculation).read[List[String]])
     
@@ -29,8 +30,17 @@ object Calculator extends Controller {
     }
     
     private def calculate(l:List[String]):Double = {
-        def calcAcc(li:List[String],stack: List[Double],acc:Double):Double ={
-            acc
+        def calcAcc(li:List[String],stack: List[Double],acc:Double):Double = {
+            if(li.isEmpty) acc
+            else if(!(numbers findAllIn li.head isEmpty)){
+                val i = li.head.toInt
+                calcAcc(li.tail,i::stack,acc)
+            } else if(!(operators findAllIn li.head isEmpty)){ 
+                0.0//placeholder for matching syntax
+            } else {
+                throw new Exception("Bad operation "+li.head)
+            }
+            
         }
         calcAcc(l,List[Double](),0.0)
     }
