@@ -87,7 +87,5 @@ object Math extends Controller {
     }
     
     def home = Action { Ok(views.html.math()) }
-    
-    def doc(action:String) = Action {Ok(views.html.math_doc(action))}
 
 }

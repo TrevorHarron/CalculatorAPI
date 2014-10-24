@@ -16,7 +16,8 @@ object Calculator extends Controller {
             case (calculation) => {
                 var result = 0.0
                 try {
-                    Ok(Json.obj("result"-> 0.0))
+                    val result =  calculate(calculation)
+                    Ok(Json.obj("result"-> result))
                 } catch {
                    case ex: IllegalArgumentException => {BadRequest(Json.obj("message"->ex.toString, "Status"->400))}
                    case ex: Exception => {InternalServerError(Json.obj("message"->"Unknown Error", "Status"->500))}
@@ -27,8 +28,11 @@ object Calculator extends Controller {
         }
     }
     
-    private def calculate(o:List[String]):Double = {
-        0.0
+    private def calculate(l:List[String]):Double = {
+        def calcAcc(li:List[String],stack: List[Double],acc:Double):Double ={
+            acc
+        }
+        calcAcc(l,List[Double](),0.0)
     }
     
     def rpn = Action { request => 

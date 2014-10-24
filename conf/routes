@@ -25,5 +25,5 @@ POST    /math/pwr                   controllers.Math.pwr
 #Calculator POST Functions
 POST    /calc/rpn                   controllers.Calculator.rpn
 
-#Math GET functions
-GET    /math/doc/:action           controllers.Math.doc(action:String)
+#Documentation GET functions
+GET    /documentation/doc/:action   controllers.Documentation.doc(action:String)
