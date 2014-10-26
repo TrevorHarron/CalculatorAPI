@@ -31,12 +31,17 @@ object Calculator extends Controller {
     
     private def calculate(l:List[String]):Double = {
         def calcAcc(li:List[String],stack: List[Double],acc:Double):Double = {
+            val num = numbers findFirstIn li.head
+            val op = operators findFirstIn li.head
             if(li.isEmpty) acc
-            else if(!(numbers findAllIn li.head isEmpty)){
+            else if(num != None){
                 val i = li.head.toInt
                 calcAcc(li.tail,i::stack,acc)
-            } else if(!(operators findAllIn li.head isEmpty)){ 
-                0.0//placeholder for matching syntax
+            } else if(op != None){ 
+                op match {
+                    0.0//placeholder for matching syntax
+                }
+                
             } else {
                 throw new Exception("Bad operation "+li.head)
             }
