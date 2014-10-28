@@ -28,13 +28,13 @@ object Math extends Controller {
         }
   }
   
-   def baseFunction(base:Double, values: List[Double],f: (Double,Double) => Double, c: Double => Boolean):Double = {
-        def iter(acc:Double,values:List[Double],g: (Double,Double) => Double, d: Double => Boolean):Double = {
-            if(values.isEmpty) acc
-            else if (d(values.head)) throw new IllegalArgumentException(values.head + " was invalid")
-            else iter(g(acc,values.head), values.tail,g,c)
+   def baseFunction(b: Double, v: List[Double], f: (Double,Double) => Double, c: Double => Boolean):Double = {
+        def iter(acc:Double,l:List[Double],g: (Double,Double) => Double, d: Double => Boolean):Double = {
+            if(v.isEmpty) acc
+            else if (d(l.head)) throw new IllegalArgumentException(l.head + " was invalid")
+            else iter(g(acc,l.head), l.tail,g,c)
         }
-        iter(base, values,f,c)
+        iter(b,v,f,c)
     }
   
   

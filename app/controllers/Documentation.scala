@@ -9,7 +9,7 @@ object Documentation extends Controller {
     
     def doc(action:String) = Action {Ok(views.html.math_doc(action))}
     
-    def math =TODO
+    def math = TODO
     
     def calculator = TODO
 }

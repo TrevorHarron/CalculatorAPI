@@ -4,6 +4,7 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import scala.math.pow
 
 object Calculator extends Controller {
     
@@ -38,8 +39,13 @@ object Calculator extends Controller {
                 val i = li.head.toInt
                 calcAcc(li.tail,i::stack,acc)
             } else if(op != None){ 
-                op match {
-                    0.0//placeholder for matching syntax
+                op.get match {
+                    case "+" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x+y,(x:Double)=>false)
+                    case "-" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x-y,(x:Double)=>false)
+                    case "*" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x*y,(x:Double)=>false)
+                    case "/" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x/y,(x:Double)=>x==0)
+                    case "%" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x%y,(x:Double)=>x==0)
+                    case "^" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false)
                 }
                 
             } else {
