@@ -40,12 +40,12 @@ object Calculator extends Controller {
                 calcAcc(li.tail,i::stack,acc)
             } else if(op != None){ 
                 op.get match {
-                    case "+" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x+y,(x:Double)=>false)
-                    case "-" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x-y,(x:Double)=>false)
-                    case "*" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x*y,(x:Double)=>false)
-                    case "/" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x/y,(x:Double)=>x==0)
-                    case "%" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>x%y,(x:Double)=>x==0)
-                    case "^" => Math.baseFunction(acc,stack,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false)
+                    case "+" => calcAcc(li.tail, Nil,Math.baseFunction(acc,stack,(x:Double,y:Double)=>x+y,(x:Double)=>false))
+                    case "-" => calcAcc(li.tail, Nil,Math.baseFunction(acc,stack,(x:Double,y:Double)=>x-y,(x:Double)=>false))
+                    case "*" => calcAcc(li.tail, Nil,Math.baseFunction(acc,stack,(x:Double,y:Double)=>x*y,(x:Double)=>false))
+                    case "/" => calcAcc(li.tail, Nil,Math.baseFunction(acc,stack,(x:Double,y:Double)=>x/y,(x:Double)=>x==0))
+                    case "%" => calcAcc(li.tail, Nil,Math.baseFunction(acc,stack,(x:Double,y:Double)=>x%y,(x:Double)=>x==0))
+                    case "^" => calcAcc(li.tail, Nil,Math.baseFunction(acc,stack,(x:Double,y:Double)=>pow(x,y),(x:Double)=>false))
                 }
                 
             } else {
