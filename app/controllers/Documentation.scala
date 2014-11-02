@@ -9,7 +9,9 @@ object Documentation extends Controller {
     
     def doc(action:String) = Action {Ok(views.html.math_doc(action))}
     
+    //THis will detail the math controller on the whole
     def math = TODO
     
+    //Detail the different calcualtor types
     def calculator = TODO
 }
